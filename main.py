@@ -1,5 +1,9 @@
+#Import constants (Eventually?)
 from constants import *
+#Import the SudokuGenerator
 from sudoku_generator import SudokuGenerator
+#Import pygame for graphics
+import pygame
 
 if __name__ == "__main__":
     """Main Program"""
