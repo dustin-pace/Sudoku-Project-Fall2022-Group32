@@ -30,7 +30,7 @@ class Board:
         position of each column or row."""
         start = 35       # Offset from edge of board.
         end = length - start
-        # For 9 col/rows, we need 8 equi-distant steps beyond starting point.
+        # For 9 col/rows, we need 8 equidistant steps beyond starting point.
         step = round(((end - start) / 8), None)
         lengths = [start]
         for num in range(1, 9):
