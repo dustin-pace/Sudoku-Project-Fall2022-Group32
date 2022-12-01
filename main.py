@@ -4,7 +4,40 @@ from constants import *
 from sudoku_generator import SudokuGenerator
 #Import pygame for graphics
 import pygame
+#Import pygame locals, for image
+from pygame.locals import*
+#This will be te sudoku background image
+background_image = pygame.image.load('Sudoku_Background_Image.jpg')
 
+def draw_game_start():
+    #Activating Pygame library
+    pygame.init()
+
+    #Width/Height of image
+    w = 1000
+    h = 1000
+
+    #Setting screen variable
+    screen = pygame.display.set_mode((w,h))
+    #Setting color of screen
+    white = (255, 255, 255)
+    #Filling empty parts of screen with white color
+    screen.fill((white))
+
+    #Variable for whether or not game is ongoing
+    game_ongoing = 1
+
+    while(game_ongoing == 1):
+        screen.blit(background_image, (0,0))
+        pygame.display.flip()
+
+draw_game_start()
+
+
+
+
+#Commenting this out for now
+'''
 if __name__ == "__main__":
     """Main Program"""
     """Currently used for testing: MUST COMPLETE LATER"""
@@ -55,3 +88,4 @@ if __name__ == "__main__":
     print()
     sudoku.remove_cells()
     sudoku.print_board()
+'''
