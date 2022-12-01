@@ -2,10 +2,13 @@
 from constants import *
 #Import the SudokuGenerator
 from sudoku_generator import SudokuGenerator
+#Import sys
+import sys
 #Import pygame for graphics
 import pygame
 #Import pygame locals, for image
 from pygame.locals import*
+
 #This will be te sudoku background image
 background_image = pygame.image.load('Sudoku_Background_Image.jpg')
 
@@ -175,13 +178,14 @@ def draw_game_over(won):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if button.collidepoint(event.pos):
                     if won == True:
-                        print("Exited")
+                        pygame.quit()
+                        sys.exit()
                     elif won == False:
                         print("Restarted")
 
 
 #Call game_over screen
-draw_game_over(False)
+draw_game_over(True)
 
 
 
