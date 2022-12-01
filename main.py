@@ -151,7 +151,7 @@ def draw_game_over(won):
         screen.blit(game_won_border, [201, 151])
         screen.blit(game_won, [200, 150])
         #Draw exit button
-        exit_button = pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
+        button = pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
         pygame.display.flip()
         #Draw exit button text
         screen.blit(exit_button_text, [365, 370])
@@ -160,7 +160,7 @@ def draw_game_over(won):
         screen.blit(game_lost_border, [201, 151])
         screen.blit(game_lost, [200, 150])
         #Draw restart button
-        restart_button = pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
+        button = pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
         pygame.display.flip()
         #Draw restart button text
         screen.blit(restart_button_text, [340, 370])
@@ -170,19 +170,18 @@ def draw_game_over(won):
         #Update the screen
         pygame.display.update()
 
-        # If button is clicked
+        #If button is clicked
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if exit_button.collidepoint(event.pos):
-                    # Print this to confirm that program works, need to change later
-                    print("exited")
-                elif restart_button.collidepoint(event.pos):
-                    # Print this to confirm that program works, need to change later
-                    print("restarted")
+                if button.collidepoint(event.pos):
+                    if won == True:
+                        print("Exited")
+                    elif won == False:
+                        print("Restarted")
 
 
 #Call game_over screen
-draw_game_over(True)
+draw_game_over(False)
 
 
 
