@@ -23,6 +23,9 @@ class Cell:
         self.screen = screen
         self.sketched_value = None
         self.cell_color = BLACK
+        self.selected = False
+        self.generated = True
+        self.position = []
 
     def set_cell_value(self, value: int) -> None:
         """Setter for this cell’s value."""
@@ -31,6 +34,10 @@ class Cell:
     def set_sketched_value(self, value: int) -> None:
         """Setter for this cell’s sketched value."""
         self.sketched_value = value
+
+    def set_pos(self, row, col):
+        self.position.append(row)
+        self.position.append(col)
 
     # TODO: Add highlighting functionality when cell is selected by user.
     def draw(self) -> None:
