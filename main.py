@@ -14,29 +14,98 @@ def draw_game_start():
     pygame.init()
 
     #Width/Height of image
-    w = 1000
-    h = 1000
+    w = 800
+    h = 600
+
+    #Colors:
+    white = (255, 255, 255)
+    light_green = (120, 179, 122)
+    black = (0, 0, 0)
+
+    #Fonts:
+    start_title_border_font = pygame.font.Font(None, 101)
+    start_title_font = pygame.font.Font(None, 100)
+    game_mode_border_font = game_mode_font = pygame.font.Font(None, 76)
+    game_mode_font = pygame.font.Font(None, 75)
+    button_font = pygame.font.Font(None, 50)
+
 
     #Setting screen variable
     screen = pygame.display.set_mode((w,h))
-    #Setting color of screen
-    white = (255, 255, 255)
     #Filling empty parts of screen with white color
     screen.fill((white))
 
-    #Variable for whether or not game is ongoing
+    #Variable for whether game is ongoing
     game_ongoing = 1
 
-    while(game_ongoing == 1):
-        screen.blit(background_image, (0,0))
-        pygame.display.flip()
+    #Initialize title border
+    title_border = start_title_border_font.render("Welcome to Sudoku", True, black)
+    #Initialize title
+    title = start_title_font.render("Welcome to Sudoku", True, white)
 
+    #Initialize game mode title border
+    game_mode_title_border = game_mode_border_font.render("Select Game Mode", True, black)
+    #Initialize game mode title
+    game_mode_title = game_mode_font.render("Select Game Mode", True, white)
+
+    #Initialize buttons text:
+    #Easy mode
+    easy_mode_text = button_font.render("Easy", True, white)
+    #Medium mode
+    medium_mode_text = button_font.render("Medium", True, white)
+    #Hard mode
+    hard_mode_text = button_font.render("Hard", True, white)
+
+    #Draw background image
+    screen.blit(background_image, (0, 0))
+    pygame.display.flip()
+
+    #Draw title border
+    screen.blit(title_border, [48, 49])
+    #Draw title
+    screen.blit(title, [50, 50])
+
+    #Draw game mode border
+    screen.blit(game_mode_title_border, [165, 274])
+    #Draw game mode title
+    screen.blit(game_mode_title, [170, 275])
+
+    #Draw buttons:
+    #Easy mode
+    pygame.draw.rect(screen, light_green, pygame.Rect(125, 350, 150, 75))
+    pygame.display.flip()
+    #Medium mode
+    pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
+    pygame.display.flip()
+    #Hard mode
+    pygame.draw.rect(screen, light_green, pygame.Rect(525, 350, 150, 75))
+    pygame.display.flip()
+
+    #Draw button text:
+    #Easy mode
+    screen.blit(easy_mode_text, [160, 370])
+    #Medium mode
+    screen.blit(medium_mode_text, [335, 370])
+    #Hard mode
+    screen.blit(hard_mode_text, [560, 370])
+
+
+
+    while(game_ongoing == 1):
+        #Update the screen
+        pygame.display.update()
+
+
+
+
+
+#Call game_start screen
 draw_game_start()
 
 
 
 
-#Commenting this out for now
+#Commenting this out for now, so I can test my code
 '''
 if __name__ == "__main__":
     """Main Program"""
