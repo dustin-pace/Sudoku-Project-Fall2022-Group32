@@ -29,14 +29,10 @@ def draw_game_start():
     game_mode_font = pygame.font.Font(None, 75)
     button_font = pygame.font.Font(None, 50)
 
-
     #Setting screen variable
     screen = pygame.display.set_mode((w,h))
     #Filling empty parts of screen with white color
     screen.fill((white))
-
-    #Variable for whether game is ongoing
-    game_ongoing = 1
 
     #Initialize title border
     title_border = start_title_border_font.render("Welcome to Sudoku", True, black)
@@ -72,13 +68,13 @@ def draw_game_start():
 
     #Draw buttons:
     #Easy mode
-    pygame.draw.rect(screen, light_green, pygame.Rect(125, 350, 150, 75))
+    easy_mode = pygame.draw.rect(screen, light_green, pygame.Rect(125, 350, 150, 75))
     pygame.display.flip()
     #Medium mode
-    pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
+    medium_mode = pygame.draw.rect(screen, light_green, pygame.Rect(325, 350, 150, 75))
     pygame.display.flip()
     #Hard mode
-    pygame.draw.rect(screen, light_green, pygame.Rect(525, 350, 150, 75))
+    hard_mode = pygame.draw.rect(screen, light_green, pygame.Rect(525, 350, 150, 75))
     pygame.display.flip()
 
     #Draw button text:
@@ -89,11 +85,38 @@ def draw_game_start():
     #Hard mode
     screen.blit(hard_mode_text, [560, 370])
 
-
-
-    while(game_ongoing == 1):
+    while(True):
         #Update the screen
         pygame.display.update()
+
+        #If button is clicked
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if easy_mode.collidepoint(event.pos):
+                    #Print this to confirm that program works, need to change later
+                    print("Easy")
+                elif medium_mode.collidepoint(event.pos):
+                    #Print this to confirm that program works, need to change later
+                    print("Medium")
+                elif hard_mode.collidepoint(event.pos):
+                    #Print this to confirm that program works, need to change later
+                    print("Hard")
+
+def draw_game_over():
+    #Activating Pygame library
+    pygame.init()
+
+    #Width/Height of image
+    w = 800
+    h = 600
+
+    #Colors:
+    white = (255, 255, 255)
+    light_green = (120, 179, 122)
+    black = (0, 0, 0)
+
+
+
 
 
 
