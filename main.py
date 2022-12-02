@@ -218,6 +218,7 @@ if __name__ == '__main__':
 if __name__ == "__main__":
     """Main Program"""
     """Currently used for testing: MUST COMPLETE LATER"""
+    
     sudoku_obj = SudokuGenerator(9,30)
     # for i, row in enumerate(sudoku_obj.board):
     #     for j, col in enumerate(row):
