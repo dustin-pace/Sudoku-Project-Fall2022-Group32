@@ -2,12 +2,16 @@
 from constants import *
 #Import the SudokuGenerator
 from sudoku_generator import SudokuGenerator
+#Import the Board class
+from board import Board
+#Import the cell class
+from cell import Cell
+#Import constants
+import constants
 #Import sys
 import sys
 #Import pygame for graphics
 import pygame
-#Import pygame locals, for image
-from pygame.locals import*
 
 #This will be te sudoku background image
 background_image = pygame.image.load('Sudoku_Background_Image.jpg')
@@ -98,12 +102,18 @@ def draw_game_start():
                 if easy_mode.collidepoint(event.pos):
                     #Print this to confirm that program works, need to change later
                     print("Easy")
+                    #Returns to main
+                    return 0
                 elif medium_mode.collidepoint(event.pos):
                     #Print this to confirm that program works, need to change later
                     print("Medium")
+                    #Returns to main
+                    return 1
                 elif hard_mode.collidepoint(event.pos):
                     #Print this to confirm that program works, need to change later
                     print("Hard")
+                    #Returns to main
+                    return 2
 
 def draw_game_over(won):
     #Activating Pygame library
@@ -185,8 +195,20 @@ def draw_game_over(won):
 
 
 
-#Call game_over screen
-draw_game_over(True)
+if __name__ == '__main__':
+    #Activating PyGame library
+    pygame.init()
+
+    #Loop for game
+    while True:
+        b = Board(900, 900, pygame.display.set_mode((900,900)), 0)
+
+        #Draw starting screen for game
+        if draw_game_start() == 0:
+            b.draw()
+
+
+
 
 
 

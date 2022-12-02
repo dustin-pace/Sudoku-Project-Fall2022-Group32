@@ -142,3 +142,6 @@ class Board:
     def check_board(self):
         """Check whether the Sudoku board is solved correctly."""
         pass
+
+
+
