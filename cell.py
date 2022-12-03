@@ -1,16 +1,11 @@
 import pygame
+from constants import *
 
-CELL_WIDTH = 40
-CELL_HEIGHT = CELL_WIDTH
-LINE_WIDTH = 2
-BLACK = (0, 0, 0)
-GREY = (126, 133, 128)
-RED = (235, 64, 52)
 
 # Initialize pygame fonts.
 pygame.init()
-font1 = pygame.font.Font(None, 32)          # Create font1 with a size of 32.
-font2 = pygame.font.Font(None, 18)          # Create font2 with a size of 18.
+font1 = pygame.font.Font(None, BOARD_FONT1)          # Create font1 with a size of 32.
+font2 = pygame.font.Font(None, BOARD_FONT2)          # Create font2 with a size of 18.
 
 
 class Cell:
@@ -46,8 +41,7 @@ class Cell:
         selected."""
 
         # Draw the cell outline.
-        pygame.draw.rect(self.screen, self.cell_color, ((self.col, self.row), (CELL_WIDTH, CELL_HEIGHT)),
-                         width=LINE_WIDTH)
+        pygame.draw.rect(self.screen, self.cell_color, pygame.Rect((self.col, self.row), (CELL_WIDTH, CELL_HEIGHT)),width=LINE_WIDTH_THIN)
 
         # Draw the cell value.
         display_value = font1.render(f"{self.value}", True, BLACK)

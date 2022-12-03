@@ -1,15 +1,9 @@
 import cell
 import pygame
 import sudoku_generator as sudoku
+from constants import *
 
-CELL_WIDTH = 40
-CELL_HEIGHT = CELL_WIDTH
-LINE_WIDTH = 2
-BLACK = (0, 0, 0)
-GREY = (126, 133, 128)
-RED = (235, 64, 52)
-START = 35  # Offset from edge of board.
-pygame.init()
+# pygame.init()
 
 
 class Board:
@@ -21,47 +15,45 @@ class Board:
         self.width = width
         self.height = height
         self.screen = screen
-        self.difficult = difficulty
-        self.columns = self.create_col_row(width)
-        self.rows = self.create_col_row(height)
+        self.difficulty = difficulty
+        self.screen = screen
+        self.columns = self.create_col_row(CELL_WIDTH)
+        self.rows = self.create_col_row(CELL_HEIGHT)
         self.board = []
-        self.values = sudoku.generate_sudoku(81, self.difficult)
+
+        # self.values = sudoku.generate_sudoku(BOARD_ROWS, self.difficulty)
         # 81 for debugging for now
+
+    def draw(self):
+        """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this
+        board."""
+        self.screen.fill((WHITE))
+        # Draw board outline.
+        left = 0
+        top = 0
+        col_size = self.width // BOARD_COLS
+        row_size = self.height // BOARD_ROWS
+        pygame.draw.rect(self.screen, BLACK, pygame.Rect(left, top, self.width, self.height), width=LINE_WIDTH_THICK)
+
+        # TODO: Fix cell drawing. Working, but not perfect.
+        #  Currently, cells are somewhat offset. May have to do with create_col_rows() staticmethod.
+        for i, row in enumerate(self.rows):
+            for j, col in enumerate(self.columns):
+                pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
+                if i % 3 == 0 and j % 3 == 0:
+                    pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH * 3, CELL_HEIGHT * 3), width=LINE_WIDTH_THICK)
 
     @staticmethod
     def create_col_row(length) -> list:
         """If given the width or height of the board, returns a list of one-dimensional integers for the starting
         position of each column or row."""
-
-        end = length - START
+        lengths = []
         # For 9 col/rows, we need 8 equidistant steps beyond starting point.
-        step = round(((end - START) / 8), None)
-        lengths = [START]
-        for num in range(1, 9):
-            lengths.append(START + step * num)
+        for num in range(0, BOARD_COLS):
+            lengths.append((START + length) * num)
         return lengths
 
-    def draw(self):
-        """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this
-        board."""
 
-        # Draw board outline.
-        left = 70
-        top = 70
-        pygame.draw.rect(self.screen, BLACK, ((left, top), (self.width, self.height)), width=LINE_WIDTH)
-
-        # TODO: Fix cell drawing. Working, but not perfect.
-        #  Currently, cells are somewhat offset. May have to do with create_col_rows() staticmethod.
-
-        # Draw individual cells.
-        for row in self.rows:
-            for col in self.columns:
-                new_cell = cell.Cell(self.board[row][col], row + left / 2, col + top / 2, self.screen)
-                new_cell.draw()
-                new_cell.set_pos(row, col)
-                if self.board[row][col] == 0:
-                    new_cell.generated = False
-                self.board[row][col] = new_cell
 
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell. Once a cell has been selected,
