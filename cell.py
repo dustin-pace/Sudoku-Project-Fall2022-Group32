@@ -10,7 +10,7 @@ font2 = pygame.font.Font(None, BOARD_FONT2)          # Create font2 with a size 
 
 class Cell:
     """This class represents a single cell in the Sudoku board. There are 81 Cells in a Board."""
-    def __init__(self, value: int, row: int, col: int, screen: pygame.display) -> None:
+    def __init__(self, value: int, row: int, col: int, screen: pygame.display, r, c) -> None:
         """Constructor for the Cell class."""
         self.value = value
         self.row = row
@@ -20,7 +20,7 @@ class Cell:
         self.cell_color = BLACK
         self.selected = False
         self.generated = True
-        self.position = []
+        self.position = [r, c]
 
     def set_cell_value(self, value: int) -> None:
         """Setter for this cell’s value."""
@@ -41,11 +41,14 @@ class Cell:
         selected."""
 
         # Draw the cell outline.
-        pygame.draw.rect(self.screen, self.cell_color, pygame.Rect((self.col, self.row), (CELL_WIDTH, CELL_HEIGHT)),width=LINE_WIDTH_THIN)
+        pygame.draw.rect(self.screen, self.cell_color, pygame.Rect(self.col, self.row, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
 
         # Draw the cell value.
-        display_value = font1.render(f"{self.value}", True, BLACK)
-        self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 4))
+        if self.value == 0:
+            display_value = font1.render(f"", True, BLACK)
+        else:
+            display_value = font1.render(f"{self.value}", True, BLACK)
+        self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
 
         # Check to see if user has created sketch value. If so, display value.
         if self.sketched_value is not None:

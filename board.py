@@ -21,8 +21,17 @@ class Board:
         self.rows = self.create_col_row(CELL_HEIGHT)
         self.board = []
 
-        # self.values = sudoku.generate_sudoku(BOARD_ROWS, self.difficulty)
-        # 81 for debugging for now
+        self.values = sudoku.generate_sudoku(BOARD_ROWS, self.difficulty)
+        for i, row in enumerate(self.values):
+            for j, col in enumerate(row):
+                self.board.append(cell.Cell(self.values[i][j], self.rows[i], self.columns[j], self.screen, i, j))
+        # Initialize generated field
+        for cell1 in self.board:
+            if cell1.value == 0:
+                cell1.generated = False
+            else:
+                cell1.generated = True
+
 
     def draw(self):
         """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this
@@ -35,13 +44,15 @@ class Board:
         row_size = self.height // BOARD_ROWS
         pygame.draw.rect(self.screen, BLACK, pygame.Rect(left, top, self.width, self.height), width=LINE_WIDTH_THICK)
 
-        # TODO: Fix cell drawing. Working, but not perfect.
-        #  Currently, cells are somewhat offset. May have to do with create_col_rows() staticmethod.
         for i, row in enumerate(self.rows):
             for j, col in enumerate(self.columns):
-                pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
+                # pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
                 if i % 3 == 0 and j % 3 == 0:
                     pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH * 3, CELL_HEIGHT * 3), width=LINE_WIDTH_THICK)
+        for i, board_cell in enumerate(self.board):
+            board_cell.draw()
+
+
 
     @staticmethod
     def create_col_row(length) -> list:
@@ -58,19 +69,23 @@ class Board:
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell. Once a cell has been selected,
         the user can edit its value or sketched value."""
-        if self.board[row][col].generated == False and self.board[row][col].selected == False:
-            self.board[row][col].selected = True
-            return True
-        elif self.board[row][col].generated:
-            return False
-        else:
-            self.board[row][col].selected = False
-            return False
+        for cell in self.board:
+            if cell.position == [row, col]:
+                if cell.generated is False and cell.selected is False:
+                    cell.selected = True
+                    cell.cell_color = RED
+                    print(row, col, cell.position, cell.cell_color)
+                    return True
+                elif cell.generated:
+                    return False
+                else:
+                    cell.selected = False
+                    return False
 
     def click(self, x, y):
         """If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row,
         col) of the cell which was clicked. Otherwise, this function returns None."""
-        if START <= x <= CELL_WIDTH * 9 and START <= y <= CELL_HEIGHT * 9:
+        if x >= START and y >= START and x <= CELL_WIDTH * BOARD_COLS and y <= CELL_HEIGHT * BOARD_ROWS:
             row = x // CELL_WIDTH
             col = y // CELL_HEIGHT
             return row, col

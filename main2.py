@@ -178,31 +178,53 @@ if __name__ == '__main__':
     pygame.init()
 
     keep_playing = True
-    #Loop for game
+    # Main Loop for game
     while keep_playing:
+        """ Draw game welcome, accept game difficulty setting"""
         mode = draw_game_start()
+
+        """ Setup board in the board class for usage with GUI"""
         b = Board(BOARD_WIDTH, BOARD_HEIGHT, pygame.display.set_mode((BG_WIDTH, BG_HEIGHT)), mode)
+
+        """ Used for console version
         sudoku_game = SudokuGenerator(9, mode)
         sudoku_solved = SudokuGenerator(9, mode)
         sudoku_game.fill_values()
         sudoku_solved.board = [item[:] for item in sudoku_game.board]
         sudoku_game.remove_cells()
+        """
+
+        """ Used this section for testing that the boards were configured correctly
         sudoku_solved.print_board()
         print()
         sudoku_game.print_board()
         print()
         b.board = sudoku_game.board
-
+                
         for i, row in enumerate(b.board):
             for j, col in enumerate(row):
                 print(b.board[i][j], end=" ")
             print()
+            
+        """
+
+
         while (True):
             b.draw()
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                selected_cell = b.click(event.pos[0], event.pos[1])
+                print(selected_cell)
+                valid_selection = b.select(selected_cell[0], selected_cell[1])
+                print(valid_selection)
+
+
+
+
+
+
         keep_playing = False
         draw_game_over(True)
-
