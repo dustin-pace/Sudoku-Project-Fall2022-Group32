@@ -280,7 +280,7 @@ if __name__ == '__main__':
                         for c in cell:
                             if c == '*':
                                 #Update the sudoku board list
-                                sudoku_game.update_board_reset(row, col, 0)
+                                sudoku_game.update_board_reset(i, j, 0)
 
 
             elif user_prompt == 3:
