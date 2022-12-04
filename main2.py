@@ -198,7 +198,7 @@ if __name__ == '__main__':
         sudoku_game.print_board()
 
         # Demonstration of sketch functionality using solved_board.board as optional argument.
-        sudoku_game.print_board(sudoku_solved.board)
+        sudoku_game.print_board(sudoku_solved.get_board())
 
         keep_playing = False
         draw_game_over(True)
