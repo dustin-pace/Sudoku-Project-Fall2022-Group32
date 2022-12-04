@@ -234,8 +234,9 @@ if __name__ == '__main__':
         won = 0
 
         while(game_status == True):
+            user_prompt = prompt_user()
             #If the user types 1, type which cell to guess, then
-            if prompt_user() == 1:
+            if user_prompt == 1:
 
                 #User input in the form of row col, or for example, 1 6
                 user_cell = input()
@@ -272,8 +273,21 @@ if __name__ == '__main__':
                     sudoku_game.print_board()
 
             #If the user types 2, reset the sudoku game
-            elif prompt_user() == 2:
-                print("2")
+            elif user_prompt == 2:
+                for i in range(0, 9):
+                    for j in range(0, 9):
+                        cell = str(sudoku_game.board[i][j])
+                        for c in cell:
+                            if c == '*':
+                                #Update the sudoku board list
+                                sudoku_game.update_board_reset(row, col, 0)
+
+
+            elif user_prompt == 3:
+                pass
+
+            elif user_prompt == 4:
+                pass
 
 
             #Checking to see if any empty cells remaining

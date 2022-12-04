@@ -41,6 +41,10 @@ class SudokuGenerator:
 
         return
 
+    def update_board_reset(self, row, col, num):
+        self.board[row][col] = f'{num}'
+        return
+
     '''
 	Returns a 2D python list of numbers which represents the board
 
