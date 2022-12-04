@@ -249,21 +249,31 @@ if __name__ == '__main__':
 
 
                 if sudoku_game.board[row][col] != 0:
-                    print('Sorry, this cell was originally filled')
+                    cell = str(sudoku_game.board[row][col])
+                    for i in cell:
+                        if i == '*':
+                            # Update the sudoku board list
+                            sudoku_game.update_board(row, col, num)
+                            # Print the sudoku board
+                            sudoku_game.print_board()
+                            a = False
+
+                    if a != False:
+                        #Print error message
+                        print('Sorry, this cell was originally filled')
+                        #Print the sudoku board
+                        sudoku_game.print_board()
+
                 else:
                     #Update the sudoku board list
                     sudoku_game.update_board(row, col, num)
-
                     #Print the sudoku board
                     sudoku_game.print_board()
 
-                #If the game is over, draw the game over screen
-                if keep_playing == False:
-                    draw_game_over(True)
-
             #If the user types 2, reset the sudoku game
-            if prompt_user() == 2:
-                pass
+            elif prompt_user() == 2:
+                print("2")
+
 
             #Checking to see if any empty cells remaining
             empty_cells = 0
@@ -273,7 +283,7 @@ if __name__ == '__main__':
             #For each number in the board list, check to see if they == 0, aka an empty cell
             for i in range(0, 9):
                 for j in range(0, 9):
-                    if sudoku_game[i][j] == 0:
+                    if sudoku_game.board[i][j] == 0:
                         empty_cells += 1
 
             #If the entire sudoku board is full
