@@ -250,6 +250,7 @@ if __name__ == '__main__':
 
                 if sudoku_game.board[row][col] != 0:
                     cell = str(sudoku_game.board[row][col])
+                    a = True
                     for i in cell:
                         if i == '*':
                             # Update the sudoku board list
