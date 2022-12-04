@@ -91,7 +91,7 @@ def draw_game_start():
                     # Returns to main
                     # pygame.quit()
                     screen.fill((WHITE))
-                    return 1
+                    return 2
                 elif medium_mode.collidepoint(event.pos):
                     # Print this to confirm that program works, need to change later
                     print("Medium")
@@ -173,24 +173,6 @@ def draw_game_over(won):
                     elif won == False:
                         print("Restarted")
 
-def draw_game_buttons():
-    # Draw Game buttons:
-    pygame.init()
-    screen = pygame.display
-    button_font = pygame.font.Font(None, BUTTON_FONT)
-
-    # Reset Button
-    gb_restart_button_text = button_font.render("Reset", True, WHITE)
-    gb_reset_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESET_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-    pygame.display.flip()
-    # Restart button
-    gb_restart_button_text = button_font.render("Restart", True, WHITE)
-    gb_restart_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESTART_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-    pygame.display.flip()
-    # Exit button
-    gb_exit_button_text = button_font.render("Exit", True, WHITE)
-    gb_exit_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(EXIT_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-    pygame.display.flip()
 
 if __name__ == '__main__':
     #Activating PyGame library
@@ -263,11 +245,21 @@ if __name__ == '__main__':
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if gb_reset_button.collidepoint(event.pos):
+                        b.reset_to_original()
+                        print('Reset Buton pressed')
+                        b.draw()
+                    elif gb_restart_button.collidepoint(event.pos):
+                        pass
+                    elif gb_exit_button.collidepoint(event.pos):
+                        pygame.quit()
+                        sys.exit()
                     selected_cell = b.click(event.pos[0], event.pos[1])
                     if selected_cell is not None:
                         valid_selection = b.select(selected_cell[0], selected_cell[1])
                     b.draw()
                     # print(valid_selection)
+
                 elif event.type == pygame.KEYDOWN:
                     key_pressed = event.key
                     if event.key == pygame.K_1:

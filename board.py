@@ -140,9 +140,11 @@ class Board:
         """Reset all cells in the board to their original values (0 if cleared, otherwise the corresponding digit)."""
         for row in self.board:
             for col in row:
-                if not col.generated:
+                if col.generated is False:
                     col.value = 0
                     col.sketched_value = 0
+                    col.selected = False
+                    col.cell_color = BLACK
 
     def is_full(self):
         """Returns a Boolean value indicating whether the board is full or not."""
