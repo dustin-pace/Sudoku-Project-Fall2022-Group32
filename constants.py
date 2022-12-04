@@ -55,3 +55,9 @@ BUTTON_FONT = 35
 BOARD_FONT1 = 32
 BOARD_FONT2 = 18
 
+# Prompts
+OPTIONS1 = """Select one of the following options by entering the appropriate key:
+    (1) guess value
+    (2) sketch value
+    (3) quit game
+"""
