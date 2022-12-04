@@ -65,7 +65,7 @@ class SudokuGenerator:
             for row1, row2 in zip(self.board, sketch_board):
                 index2 = 0
                 for col1, col2 in zip(row1, row2):
-                    print(f"{self.board[index1][index2]} {sketch_board[index1][index2]}*", end=" ")
+                    print(f"|{self.board[index1][index2]} {sketch_board[index1][index2]}*|", end=" ")
                     index2 += 1
                 index1 += 1
                 print()
@@ -73,7 +73,7 @@ class SudokuGenerator:
         else:
             for i, row in enumerate(self.board):
                 for j, col in enumerate(row):
-                    print(self.board[i][j], end=" ")
+                    print(f"|{self.board[i][j]}|", end=" ")
                 print()
 
     '''
