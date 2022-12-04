@@ -188,12 +188,17 @@ if __name__ == '__main__':
         sudoku_game.remove_cells()
 
         # Print solved board for debugging.
-        sudoku_solved.print_board()
-        print()
+        # sudoku_solved.print_board()
+        # print()
+        #
+        # # Display unsolved board to user for game.
+        # sudoku_game.print_board()
+        # print()
 
-        # Display unsolved board to user for game.
         sudoku_game.print_board()
-        print()
+
+        # Demonstration of sketch functionality using solved_board.board as optional argument.
+        sudoku_game.print_board(sudoku_solved.board)
 
         keep_playing = False
         draw_game_over(True)
