@@ -172,7 +172,37 @@ def draw_game_over(won):
 
 # TODO: Build function.
 def modify_cell():
-    pass
+    # Row = input from user
+    row = int(input("Enter the row of the cell: ")) -1
+    # Col = input from user
+    col = int(input("Enter the column of the cell: ")) -1
+    # Guess value = input from user
+    num = int(input("Enter the value of the cell to enter: "))
+    # Ask if this is a sketch value
+    sketch = input("Is this a sketch value? Enter Y/N:")
+    if sudoku_game.board[row][col] == 0:
+        if sketch == "y" or sketch == "Y":
+            sudoku_game.update_board_sketch(row, col, num)
+            sudoku_game.print_board()
+        elif sketch == "n" or sketch == "N":
+            sudoku_game.update_board(row, col, num)
+            sudoku_game.print_board()
+        else:
+            print("Please enter a correct option.\n Redoing cell input.")
+            modify_cell()
+    elif len(str(sudoku_game.board[row][col])) == 2:
+        if sketch == "y" or sketch == "Y":
+            sudoku_game.update_board_sketch(row, col, num)
+            sudoku_game.print_board()
+        elif sketch == "n" or sketch == "N":
+            sudoku_game.update_board(row, col, num)
+            sudoku_game.print_board()
+        else:
+            print("Please enter a correct option.\n Redoing cell input.")
+            modify_cell()
+    else:
+        print("The selected cell cannot be edited.")
+        sudoku_game.print_board()
 
 
 def prompt_user() -> int:
@@ -210,107 +240,60 @@ if __name__ == '__main__':
         sudoku_solved.board = [item[:] for item in sudoku_game.board]
         sudoku_game.remove_cells()
 
-        #Print the board with zeros
+        # Print the board with zeros
         sudoku_game.print_board()
 
-        #Newline
+        # Newline
         print()
 
-        #Demonstration of sketch functionality using solved_board.get_board() as optional argument.
-        #sudoku_game.print_board(sudoku_solved.get_board())
+        # Demonstration of sketch functionality using solved_board.get_board() as optional argument.
+        # sudoku_game.print_board(sudoku_solved.get_board())
 
-        #Newline
+        # Newline
         print()
 
-        #Variable for whether player won the game or not
+        # Variable for whether player won the game or not
         won = 0
 
-        while(game_status == True):
+        while (game_status == True):
             user_prompt = prompt_user()
-            #If the user types 1, type which cell to guess, then
+            # If the user types 1, type which cell to guess, then
             if user_prompt == 1:
+                modify_cell()
 
-                #User input in the form of row col, or for example, 1 6
-                user_cell = input()
-
-                #Row = first index of user_cell
-                row = int(user_cell[0])
-                #Col = third index of user_cell
-                col = int(user_cell[2])
-                #Guess value = fifth index of user_cell
-                num = int(user_cell[4])
-
-
-                if sudoku_game.board[row][col] != 0:
-                    cell = str(sudoku_game.board[row][col])
-                    a = True
-                    for i in cell:
-                        if i == '*':
-                            # Update the sudoku board list
-                            sudoku_game.update_board(row, col, num)
-                            # Print the sudoku board
-                            sudoku_game.print_board()
-                            a = False
-
-                    if a != False:
-                        #Print error message
-                        print('Sorry, this cell was originally filled')
-                        #Print the sudoku board
-                        sudoku_game.print_board()
-
-                else:
-                    #Update the sudoku board list
-                    sudoku_game.update_board(row, col, num)
-                    #Print the sudoku board
-                    sudoku_game.print_board()
-
-            #If the user types 2, reset the sudoku game
+            # If the user types 2, reset the sudoku game
             elif user_prompt == 2:
                 for i in range(0, 9):
                     for j in range(0, 9):
                         cell = str(sudoku_game.board[i][j])
                         for c in cell:
                             if c == '*':
-                                #Update the sudoku board list
+                                # Update the sudoku board list
                                 sudoku_game.update_board_reset(i, j, 0)
+                print("The board has been reset.")
+                sudoku_game.print_board()
 
 
             elif user_prompt == 3:
-                #Just need to break out of game_status == True loop
-                #Doesn't work yet
-                game_status = False
+                # Just need to break out of game_status == True loop
+                # Doesn't work yet
+                print("Restarting game.")
+                break
+
 
             elif user_prompt == 4:
-                pass
+                print("Thank you for playing!")
+                quit()
 
-
-            #Checking to see if any empty cells remaining
-            empty_cells = 0
-            #Number of solved cells
-            solved_cells = 0
-
-            #For each number in the board list, check to see if they == 0, aka an empty cell
-            for i in range(0, 9):
-                for j in range(0, 9):
-                    if sudoku_game.board[i][j] == 0:
-                        empty_cells += 1
-
-            #If the entire sudoku board is full
-            if empty_cells == 0:
-                '''TAKE OUT THE ASTERIKS!!!'''
-                #Compare user's board to solved board
-                for i in range(0, 9):
-                    for j in range(0, 9):
-                        if sudoku_game[i][j] == sudoku_solved[i][j]:
-                            solved_cells += 1
-
-                if solved_cells == 81:
-                    keep_playing = False
-                    won = True
-                else:
-                    keep_playing = False
-                    won = False
-
-
-
+            if sudoku_game.board == sudoku_solved.board:
+                print("Congratulations. You solved the Sudoku board!")
+                again = input("Do you want to keep playing? Enter Y/N.")
+                if again == "Y" or again == "y":
+                    print("Restarting game.")
+                    game_status == False
+                    continue
+                elif again == "N" or again == "n":
+                    print("Thank you for playing!")
+                    quit()
+        continue
     draw_game_over(won)

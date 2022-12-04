@@ -37,12 +37,11 @@ class SudokuGenerator:
         return None
 
     def update_board(self, row, col, num):
-        self.board[row][col] = f'{num}*'
-
+        self.board[row][col] = f'{num}'
         return
 
-    def update_board_reset(self, row, col, num):
-        self.board[row][col] = f'{num}'
+    def update_board_sketch(self, row, col, num):
+        self.board[row][col] = f'{num}*'
         return
 
     '''
@@ -70,7 +69,10 @@ class SudokuGenerator:
         #If no optional argument, only print game board.
         for i, row in enumerate(self.board):
             for j, col in enumerate(row):
-                print(f"|{self.board[i][j]}|", end=" ")
+                if self.board[i][j] == 0:
+                    print(f"|-|", end=" ")
+                else:
+                    print(f"|{self.board[i][j]}|", end=" ")
             print()
 
     '''

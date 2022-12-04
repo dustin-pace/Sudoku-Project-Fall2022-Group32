@@ -57,7 +57,7 @@ BOARD_FONT2 = 18
 
 # Prompts
 OPTIONS1 = """Select one of the following options by entering the appropriate key:
-    (1) type which cell to guess and guess number(in order of row col guess)
+    (1) type which cell to guess or sketch number
     (2) reset game
     (3) restart game
     (4) quit game
