@@ -210,14 +210,6 @@ if __name__ == '__main__':
         sudoku_solved.board = [item[:] for item in sudoku_game.board]
         sudoku_game.remove_cells()
 
-        # Print solved board for debugging.
-        # sudoku_solved.print_board()
-        # print()
-        #
-        # # Display unsolved board to user for game.
-        # sudoku_game.print_board()
-        # print()
-
         #Print the board with zeros
         sudoku_game.print_board()
 
@@ -284,7 +276,9 @@ if __name__ == '__main__':
 
 
             elif user_prompt == 3:
-                pass
+                #Just need to break out of game_status == True loop
+                #Doesn't work yet
+                game_status = False
 
             elif user_prompt == 4:
                 pass
