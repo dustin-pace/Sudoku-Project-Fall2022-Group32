@@ -199,6 +199,8 @@ if __name__ == '__main__':
     # Main Loop for game
     while keep_playing:
 
+        game_status = True
+
         """ Draw game welcome, accept game difficulty setting"""
         mode = draw_game_start()
 
@@ -228,29 +230,39 @@ if __name__ == '__main__':
         #Newline
         print()
 
-        #If the user picks 1, type which cell to guess, then
-        if prompt_user() == 1:
+        while(game_status == True):
+            #If the user picks 1, type which cell to guess, then
+            if prompt_user() == 1:
 
-            #User input in the form of row col, or for example, 1 6
-            user_cell = input()
+                #User input in the form of row col, or for example, 1 6
+                user_cell = input()
 
-            #Row = first index of user_cell
-            row = int(user_cell[0])
-            #Col = third index of user_cell
-            col = int(user_cell[2])
-            #Guess value = fifth index of user_cell
-            num = int(user_cell[4])
-
-            sudoku_game.update_board(row, col, num)
-
-            sudoku_game.print_board()
-
-            print(sudoku_game.get_board())
+                #Row = first index of user_cell
+                row = int(user_cell[0])
+                #Col = third index of user_cell
+                col = int(user_cell[2])
+                #Guess value = fifth index of user_cell
+                num = int(user_cell[4])
 
 
+                if sudoku_game.board[row][col] != 0:
+                    print('Sorry, this cell was originally filled')
+                else:
+                    #Update the sudoku board list
+                    sudoku_game.update_board(row, col, num)
 
-            #If the game is over, draw the game over screen
-            if keep_playing == False:
-                draw_game_over(True)
+                    #Print the sudoku board
+                    sudoku_game.print_board()
+
+                #If the game is over, draw the game over screen
+                if keep_playing == False:
+                    draw_game_over(True)
+
+            if prompt_user() == 2:
+                pass
+
+            '''Maybe to solve, remove the asteriks from the whole list of sudoku_game, then compare to sudoku_solved'''
+
+
 
     keep_playing = False
