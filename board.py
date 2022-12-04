@@ -97,56 +97,52 @@ class Board:
     def clear(self):
         """Clears the value cell. Note that the user can only remove the cell values and sketched value that are
         filled by themselves."""
-        for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].value = 0
-                    self.board[row][col].sketched_value = None
+        for cell in self.board:
+            if cell.generated == False and cell.selected == True:
+                cell.value = 0
+                cell.sketched_value = None
+        return None
 
     def sketch(self, value):
         """Sets the sketched value of the current selected cell equal to user entered value. It will be displayed in
         the top left corner of the cell using the draw() function."""
-        for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].sketched_value = value
+        for cell in self.board:
+            if cell.generated == False and cell.selected == True:
+                    cell.sketched_value = value
+        return None
 
     def place_number(self, value):
         """Sets the value of the current selected cell equal to user entered value. Called when the user presses the
         Enter key."""
-        for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].value = value
+        for cell in self.board:
+            if cell.generated == False and cell.selected == True:
+                cell.value = value
+        return None
 
     def reset_to_original(self):
         """Reset all cells in the board to their original values (0 if cleared, otherwise the corresponding digit)."""
-        for row in self.board:
-            for col in self.board[row]:
-                if not self.board[row][col].generated:
-                    self.board[row][col].value = 0
-                    self.board[row][col].sketched_value = None
+        for cell in self.board:
+            if not cell.generated:
+                cell.value = 0
+                cell.sketched_value = None
+        return None
 
     def is_full(self):
         """Returns a Boolean value indicating whether the board is full or not."""
-        for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].value == 0:
-                    return False
+        for cell in self.board:
+            if cell.value == 0:
+                return False
         return True
 
     def update_board(self):
         """Updates the underlying 2D board with the values in all cells."""
-        for row in self.board:
-            for col in self.board[row]:
-                self.values[row][col] = self.board[row][col].value
+        pass
 
     def find_empty(self):
         """Finds an empty cell and returns its row and col as a tuple (x, y)."""
-        for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].value == 0 and self.board[row][col].sketched_value is None:
-                    return row, col
+        for cell in self.board:
+            if cell.value == 0 and cell.sketched_value is None:
+                return cell.position
 
     def check_board(self):
         """Check whether the Sudoku board is solved correctly."""
