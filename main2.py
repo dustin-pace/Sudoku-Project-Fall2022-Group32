@@ -178,8 +178,9 @@ if __name__ == '__main__':
     pygame.init()
 
     keep_playing = True
-    # Main Loop for game
+    #Main Loop for game
     while keep_playing:
+
         """ Draw game welcome, accept game difficulty setting"""
         mode = draw_game_start()
 
@@ -208,18 +209,38 @@ if __name__ == '__main__':
             
         """
 
-
         while (True):
+            #Draw the sudoku board
             b.draw()
+            #Update the GUI display
             pygame.display.update()
+
+            #For event in pygame
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
+
+            #If user clicks a cell, then
             if event.type == pygame.MOUSEBUTTONDOWN:
                 selected_cell = b.click(event.pos[0], event.pos[1])
                 print(selected_cell)
+
                 valid_selection = b.select(selected_cell[0], selected_cell[1])
                 print(valid_selection)
+
+                user_number = input()
+
+                font1 = pygame.font.Font(None, BOARD_FONT1)
+
+                display_value = font1.render(f"{user_number}", True, BLACK)
+                b.screen.blit(display_value, (selected_cell))
+
+
+
+
+
+
+
 
 
 

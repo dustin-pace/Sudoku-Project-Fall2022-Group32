@@ -22,6 +22,8 @@ class Board:
         self.board = []
 
         self.values = sudoku.generate_sudoku(BOARD_ROWS, self.difficulty)
+
+
         for i, row in enumerate(self.values):
             for j, col in enumerate(row):
                 self.board.append(cell.Cell(self.values[i][j], self.rows[i], self.columns[j], self.screen, i, j))
