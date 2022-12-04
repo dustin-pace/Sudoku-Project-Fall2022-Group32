@@ -223,7 +223,7 @@ if __name__ == '__main__':
         print()
 
         #Demonstration of sketch functionality using solved_board.get_board() as optional argument.
-        sudoku_game.print_board(sudoku_solved.get_board())
+        #sudoku_game.print_board(sudoku_solved.get_board())
 
         #Newline
         print()
@@ -235,9 +235,17 @@ if __name__ == '__main__':
             user_cell = input()
 
             #Row = first index of user_cell
-            row = user_cell[0]
+            row = int(user_cell[0])
             #Col = third index of user_cell
-            col = user_cell[2]
+            col = int(user_cell[2])
+            #Guess value = fifth index of user_cell
+            num = int(user_cell[4])
+
+            sudoku_game.update_board(row, col, num)
+
+            sudoku_game.print_board()
+
+            print(sudoku_game.get_board())
 
 
 

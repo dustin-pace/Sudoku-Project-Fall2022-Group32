@@ -36,6 +36,11 @@ class SudokuGenerator:
             self.board.append(row)
         return None
 
+    def update_board(self, row, col, num):
+        self.board[row][col] = f'{num}*'
+
+        return
+
     '''
 	Returns a 2D python list of numbers which represents the board
 
@@ -58,23 +63,11 @@ class SudokuGenerator:
         Accepts optional sketch_board parameter. If parameter is used, prints each sketch value adjacent to the
         relevant cell denoted with asterisk."""
 
-        # Check to see if optional argument is present.
-        if sketch_board:
-            index1 = 0
-            # Iterate through both boards using zip.
-            for row1, row2 in zip(self.board, sketch_board):
-                index2 = 0
-                for col1, col2 in zip(row1, row2):
-                    print(f"|{self.board[index1][index2]} {sketch_board[index1][index2]}*|", end=" ")
-                    index2 += 1
-                index1 += 1
-                print()
-        # If no optional argument, only print game board.
-        else:
-            for i, row in enumerate(self.board):
-                for j, col in enumerate(row):
-                    print(f"|{self.board[i][j]}|", end=" ")
-                print()
+        #If no optional argument, only print game board.
+        for i, row in enumerate(self.board):
+            for j, col in enumerate(row):
+                print(f"|{self.board[i][j]}|", end=" ")
+            print()
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
