@@ -230,8 +230,11 @@ if __name__ == '__main__':
         #Newline
         print()
 
+        #Variable for whether player won the game or not
+        won = 0
+
         while(game_status == True):
-            #If the user picks 1, type which cell to guess, then
+            #If the user types 1, type which cell to guess, then
             if prompt_user() == 1:
 
                 #User input in the form of row col, or for example, 1 6
@@ -258,11 +261,37 @@ if __name__ == '__main__':
                 if keep_playing == False:
                     draw_game_over(True)
 
+            #If the user types 2, reset the sudoku game
             if prompt_user() == 2:
                 pass
 
-            '''Maybe to solve, remove the asteriks from the whole list of sudoku_game, then compare to sudoku_solved'''
+            #Checking to see if any empty cells remaining
+            empty_cells = 0
+            #Number of solved cells
+            solved_cells = 0
+
+            #For each number in the board list, check to see if they == 0, aka an empty cell
+            for i in range(0, 9):
+                for j in range(0, 9):
+                    if sudoku_game[i][j] == 0:
+                        empty_cells += 1
+
+            #If the entire sudoku board is full
+            if empty_cells == 0:
+                '''TAKE OUT THE ASTERIKS!!!'''
+                #Compare user's board to solved board
+                for i in range(0, 9):
+                    for j in range(0, 9):
+                        if sudoku_game[i][j] == sudoku_solved[i][j]:
+                            solved_cells += 1
+
+                if solved_cells == 81:
+                    keep_playing = False
+                    won = True
+                else:
+                    keep_playing = False
+                    won = False
 
 
 
-    keep_playing = False
+    draw_game_over(won)
