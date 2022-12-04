@@ -215,11 +215,34 @@ if __name__ == '__main__':
         # # Display unsolved board to user for game.
         # sudoku_game.print_board()
         # print()
-        sudoku_game.print_board()
-        prompt_user()
 
-        # Demonstration of sketch functionality using solved_board.get_board() as optional argument.
+        #Print the board with zeros
+        sudoku_game.print_board()
+
+        #Newline
+        print()
+
+        #Demonstration of sketch functionality using solved_board.get_board() as optional argument.
         sudoku_game.print_board(sudoku_solved.get_board())
 
-        keep_playing = False
-        draw_game_over(True)
+        #Newline
+        print()
+
+        #If the user picks 1, type which cell to guess, then
+        if prompt_user() == 1:
+
+            #User input in the form of row col, or for example, 1 6
+            user_cell = input()
+
+            #Row = first index of user_cell
+            row = user_cell[0]
+            #Col = third index of user_cell
+            col = user_cell[2]
+
+
+
+            #If the game is over, draw the game over screen
+            if keep_playing == False:
+                draw_game_over(True)
+
+    keep_playing = False
