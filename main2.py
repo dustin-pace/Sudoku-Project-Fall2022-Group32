@@ -7,7 +7,7 @@ import sys
 # Import pygame for graphics
 import pygame
 
-# This will be te sudoku background image
+# This will be the sudoku background image
 background_image = pygame.image.load('Sudoku_Background_Image.jpg')
 
 
@@ -170,6 +170,27 @@ def draw_game_over(won):
                         print("Restarted")
 
 
+# TODO: Build function.
+def modify_cell():
+    pass
+
+
+def prompt_user() -> int:
+    """Display CLI options to user. Ask user to make valid input. Returns user input."""
+    try:
+        user_input = int(input(OPTIONS1).strip())
+        print()
+        if user_input > 3 or user_input < 1:
+            raise ValueError("Enter a valid integer")
+    except ValueError as error:
+        print(f"Error: {error}. Select a valid option.")
+        print()
+        prompt_user()
+
+    # Return statement will only execute if valid assignment to user_input.
+    return user_input
+
+
 if __name__ == '__main__':
     # Activating PyGame library
     pygame.init()
@@ -194,10 +215,10 @@ if __name__ == '__main__':
         # # Display unsolved board to user for game.
         # sudoku_game.print_board()
         # print()
-
         sudoku_game.print_board()
+        prompt_user()
 
-        # Demonstration of sketch functionality using solved_board.board as optional argument.
+        # Demonstration of sketch functionality using solved_board.get_board() as optional argument.
         sudoku_game.print_board(sudoku_solved.get_board())
 
         keep_playing = False
