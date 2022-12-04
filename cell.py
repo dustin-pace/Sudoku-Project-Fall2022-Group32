@@ -16,7 +16,7 @@ class Cell:
         self.row = row
         self.col = col
         self.screen = screen
-        self.sketched_value = None
+        self.sketched_value = 0
         self.cell_color = BLACK
         self.selected = False
         self.generated = True
@@ -44,13 +44,24 @@ class Cell:
         pygame.draw.rect(self.screen, self.cell_color, pygame.Rect(self.col, self.row, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
 
         # Draw the cell value.
-        if self.value == 0:
-            display_value = font1.render(f"", True, BLACK)
-        else:
+        if self.generated == True:
             display_value = font1.render(f"{self.value}", True, BLACK)
-        self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
+            self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
+        else:
+            if self.sketched_value == 0:
+                if self.value == 0:
+                    display_value = font1.render(f"", True, BLACK)
+                else:
+                    display_value = font1.render(f"{self.value}", True, BLACK)
+                self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
+            else:
+                display_value = font2.render(f"{self.sketched_value}", True, GREY)
+                self.screen.blit(display_value, (self.col + CELL_WIDTH / 6, self.row + CELL_HEIGHT / 6))
+                if self.value != 0:
+                    display_value = font1.render(f"{self.value}", True, BLACK)
+                    self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
 
         # Check to see if user has created sketch value. If so, display value.
-        if self.sketched_value is not None:
-            sketch_value = font2.render(f"{self.sketched_value}", True, GREY)
-            self.screen.blit(sketch_value, (self.col + CELL_WIDTH / 7, self.row + CELL_HEIGHT / 8))
+        # if self.sketched_value is not None:
+        #     sketch_value = font2.render(f"{self.sketched_value}", True, GREY)
+        #     self.screen.blit(sketch_value, (self.col + CELL_WIDTH / 7, self.row + CELL_HEIGHT / 8))

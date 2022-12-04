@@ -1,6 +1,6 @@
 import cell
 import pygame
-import sudoku_generator as sudoku
+import sudoku_generator
 from constants import *
 
 # pygame.init()
@@ -20,23 +20,34 @@ class Board:
         self.columns = self.create_col_row(CELL_WIDTH)
         self.rows = self.create_col_row(CELL_HEIGHT)
         self.board = []
+        # Generate new Sudoku board
+        sudoku_game = sudoku_generator.SudokuGenerator(BOARD_ROWS, self.difficulty)
+        sudoku_solved = sudoku_generator.SudokuGenerator(BOARD_ROWS, self.difficulty)
+        sudoku_game.fill_values()
+        sudoku_solved.board = [item[:] for item in sudoku_game.board]
+        sudoku_game.remove_cells()
+        # Store game board and solved game board
+        self.values = [item[:] for item in sudoku_game.board]
+        self.solved = [item[:] for item in sudoku_solved.board]
 
-        self.values = sudoku.generate_sudoku(BOARD_ROWS, self.difficulty)
-        for i, row in enumerate(self.values):
-            for j, col in enumerate(row):
-                self.board.append(cell.Cell(self.values[i][j], self.rows[i], self.columns[j], self.screen, i, j))
-        # Initialize generated field
-        for cell1 in self.board:
-            if cell1.value == 0:
-                cell1.generated = False
-            else:
-                cell1.generated = True
+        for i, b_row in enumerate(self.values):
+            new_row = []
+            for j, b_col in enumerate(b_row):
+                new_row.append(cell.Cell(self.values[i][j], self.rows[i], self.columns[j], self.screen, i, j))
+            self.board.append(new_row)
+        """ Set the generated flag in the board"""
+        for b_row in self.board:
+            for b_col in b_row:
+                if b_col.value == 0:
+                    b_col.generated = False
+                else:
+                    b_col.generated = True
 
 
     def draw(self):
         """Draws an outline of the Sudoku grid, with bold lines to delineate the 3x3 boxes. Draws every cell on this
         board."""
-        self.screen.fill((WHITE))
+        # self.screen.fill((WHITE))
         # Draw board outline.
         left = 0
         top = 0
@@ -49,8 +60,9 @@ class Board:
                 # pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH, CELL_HEIGHT), width=LINE_WIDTH_THIN)
                 if i % 3 == 0 and j % 3 == 0:
                     pygame.draw.rect(self.screen, BLACK, pygame.Rect(row, col, CELL_WIDTH * 3, CELL_HEIGHT * 3), width=LINE_WIDTH_THICK)
-        for i, board_cell in enumerate(self.board):
-            board_cell.draw()
+        for board_row in self.board:
+            for board_cell in board_row:
+                board_cell.draw()
 
 
 
@@ -69,25 +81,29 @@ class Board:
     def select(self, row, col):
         """Marks the cell at (row, col) in the board as the current selected cell. Once a cell has been selected,
         the user can edit its value or sketched value."""
-        for cell in self.board:
-            if cell.position == [row, col]:
-                if cell.generated is False and cell.selected is False:
-                    cell.selected = True
-                    cell.cell_color = RED
-                    print(row, col, cell.position, cell.cell_color)
-                    return True
-                elif cell.generated:
-                    return False
-                else:
-                    cell.selected = False
-                    return False
+        for i, b_row in enumerate(self.board):
+            for j, b_col in enumerate(b_row):
+                if i == row and j == col:
+                    if b_col.generated is False and b_col.selected is False:
+                        b_col.selected = True
+                        b_col.cell_color = RED
+                        return True
+                    elif b_col.generated is False and b_col.selected is True:
+                        b_col.selected = False
+                        b_col.cell_color = BLACK
+                    elif b_col.generated:
+                        return False
+                    else:
+                        b_col.selected = False
+                        return False
+
 
     def click(self, x, y):
         """If a tuple of (x, y) coordinates is within the displayed board, this function returns a tuple of the (row,
         col) of the cell which was clicked. Otherwise, this function returns None."""
         if x >= START and y >= START and x <= CELL_WIDTH * BOARD_COLS and y <= CELL_HEIGHT * BOARD_ROWS:
-            row = x // CELL_WIDTH
-            col = y // CELL_HEIGHT
+            col = x // CELL_WIDTH
+            row = y // CELL_HEIGHT
             return row, col
         else:
             return None
@@ -96,48 +112,51 @@ class Board:
         """Clears the value cell. Note that the user can only remove the cell values and sketched value that are
         filled by themselves."""
         for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].value = 0
-                    self.board[row][col].sketched_value = None
+            for col in row:
+                if col.generated == False and col.selected == True:
+                    col.value = 0
+                    col.sketched_value = 0
 
     def sketch(self, value):
         """Sets the sketched value of the current selected cell equal to user entered value. It will be displayed in
         the top left corner of the cell using the draw() function."""
         for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].sketched_value = value
+            for col in row:
+                if col.generated == False and col.selected == True:
+                    col.sketched_value = value
+                    # print(col.sketched_value)
 
     def place_number(self, value):
         """Sets the value of the current selected cell equal to user entered value. Called when the user presses the
         Enter key."""
         for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].generated == False and self.board[row][col].selected == True:
-                    self.board[row][col].value = value
+            for col in row:
+                if col.generated == False and col.selected == True:
+                    col.value = col.sketched_value
+                    col.sketched_value = 0
+
 
     def reset_to_original(self):
         """Reset all cells in the board to their original values (0 if cleared, otherwise the corresponding digit)."""
         for row in self.board:
-            for col in self.board[row]:
-                if not self.board[row][col].generated:
-                    self.board[row][col].value = 0
-                    self.board[row][col].sketched_value = None
+            for col in row:
+                if not col.generated:
+                    col.value = 0
+                    col.sketched_value = 0
 
     def is_full(self):
         """Returns a Boolean value indicating whether the board is full or not."""
         for row in self.board:
-            for col in self.board[row]:
-                if self.board[row][col].value == 0:
+            for col in row:
+                if col.value == 0:
                     return False
         return True
 
     def update_board(self):
         """Updates the underlying 2D board with the values in all cells."""
-        for row in self.board:
-            for col in self.board[row]:
-                self.values[row][col] = self.board[row][col].value
+        for i, row in enumerate(self.board):
+            for j, col in enumerate(row):
+                self.values[i][j] = col.value
 
     def find_empty(self):
         """Finds an empty cell and returns its row and col as a tuple (x, y)."""
@@ -148,7 +167,12 @@ class Board:
 
     def check_board(self):
         """Check whether the Sudoku board is solved correctly."""
-        pass
+        for i, row in enumerate(self.board):
+            for j, col in enumerate(row):
+                if col.value != self.solved[i][j]:
+                    print(col.value, self.solved[i][j])
+                    return False
+        return True
 
 
 
