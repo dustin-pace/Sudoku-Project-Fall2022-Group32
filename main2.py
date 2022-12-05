@@ -218,7 +218,7 @@ if __name__ == '__main__':
                     if gb_reset_button.collidepoint(event.pos):
                         b.reset_to_original()
                         """These are for troubleshooting the Reset button
-                        print('Reset Buton pressed')
+                        print('Reset Button pressed')
                         for i, row in enumerate(b.board):
                             for j, col in enumerate(row):
                                 print(col.value, col.sketched_value, end=" ")
