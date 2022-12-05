@@ -87,7 +87,7 @@ def draw_game_start():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if easy_mode.collidepoint(event.pos):
                     screen.fill((WHITE))
-                    return 2
+                    return 30
                 elif medium_mode.collidepoint(event.pos):
                     screen.fill((WHITE))
                     return 40
@@ -162,6 +162,34 @@ def draw_game_over(won):
                         return True
     return False
 
+def draw_buttons():
+    """ Setup and draw the buttons at the bottom of the screen """
+    button_font = pygame.font.Font(None, BUTTON_FONT)
+
+    """" Reset Button """
+    gb_reset_button_text = button_font.render("Reset", True, WHITE)
+    gb_reset_button = pygame.draw.rect(screen, LIGHT_GREEN,
+                                       pygame.Rect(RESET_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH,
+                                                   GB_BUTTON_HEIGHT))
+    pygame.display.flip()
+    screen.blit(gb_reset_button_text, [RESET_BUTTON_START_H + 30, GB_BUTTON_START_V + 8])
+    """Restart button"""
+    gb_restart_button_text = button_font.render("Restart", True, WHITE)
+    gb_restart_button = pygame.draw.rect(screen, LIGHT_GREEN,
+                                         pygame.Rect(RESTART_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH,
+                                                     GB_BUTTON_HEIGHT))
+    pygame.display.flip()
+    screen.blit(gb_restart_button_text, [RESTART_BUTTON_START_H + 20, GB_BUTTON_START_V + 8])
+    """Exit button"""
+    gb_exit_button_text = button_font.render("Exit", True, WHITE)
+    gb_exit_button = pygame.draw.rect(screen, LIGHT_GREEN,
+                                      pygame.Rect(EXIT_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH,
+                                                  GB_BUTTON_HEIGHT))
+    pygame.display.flip()
+    screen.blit(gb_exit_button_text, [EXIT_BUTTON_START_H + 40, GB_BUTTON_START_V + 8])
+    return gb_reset_button, gb_restart_button, gb_exit_button
+
+
 if __name__ == '__main__':
     #Activating PyGame library
     pygame.init()
@@ -185,30 +213,33 @@ if __name__ == '__main__':
         """ Setup board in the board class for usage with GUI"""
         b = Board(BOARD_WIDTH, BOARD_HEIGHT, screen, mode)
         screen.fill((WHITE))
-
-        """ Setup and draw the buttons at the bottom of the screen """
-        button_font = pygame.font.Font(None, BUTTON_FONT)
-
-        """" Reset Button """
-        gb_reset_button_text = button_font.render("Reset", True, WHITE)
-        gb_reset_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESET_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-        pygame.display.flip()
-        screen.blit(gb_reset_button_text, [RESET_BUTTON_START_H + 30, GB_BUTTON_START_V + 8])
-        """Restart button"""
-        gb_restart_button_text = button_font.render("Restart", True, WHITE)
-        gb_restart_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESTART_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-        pygame.display.flip()
-        screen.blit(gb_restart_button_text, [RESTART_BUTTON_START_H + 20, GB_BUTTON_START_V + 8])
-        """Exit button"""
-        gb_exit_button_text = button_font.render("Exit", True, WHITE)
-        gb_exit_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(EXIT_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
-        pygame.display.flip()
-        screen.blit(gb_exit_button_text, [EXIT_BUTTON_START_H + 40, GB_BUTTON_START_V + 8])
+        gb_reset_button, gb_restart_button, gb_exit_button = draw_buttons()
+        # """ Setup and draw the buttons at the bottom of the screen """
+        # button_font = pygame.font.Font(None, BUTTON_FONT)
+        #
+        # """" Reset Button """
+        # gb_reset_button_text = button_font.render("Reset", True, WHITE)
+        # gb_reset_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESET_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
+        # pygame.display.flip()
+        # screen.blit(gb_reset_button_text, [RESET_BUTTON_START_H + 30, GB_BUTTON_START_V + 8])
+        # """Restart button"""
+        # gb_restart_button_text = button_font.render("Restart", True, WHITE)
+        # gb_restart_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(RESTART_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
+        # pygame.display.flip()
+        # screen.blit(gb_restart_button_text, [RESTART_BUTTON_START_H + 20, GB_BUTTON_START_V + 8])
+        # """Exit button"""
+        # gb_exit_button_text = button_font.render("Exit", True, WHITE)
+        # gb_exit_button = pygame.draw.rect(screen, LIGHT_GREEN, pygame.Rect(EXIT_BUTTON_START_H, GB_BUTTON_START_V, GB_BUTTON_WIDTH, GB_BUTTON_HEIGHT))
+        # pygame.display.flip()
+        # screen.blit(gb_exit_button_text, [EXIT_BUTTON_START_H + 40, GB_BUTTON_START_V + 8])
 
 
         while not restart_game:
             b.draw()
             pygame.display.update()
+            # screen.blit(gb_reset_button_text, [RESET_BUTTON_START_H + 30, GB_BUTTON_START_V + 8])
+            # screen.blit(gb_restart_button_text, [RESTART_BUTTON_START_H + 20, GB_BUTTON_START_V + 8])
+            # screen.blit(gb_exit_button_text, [EXIT_BUTTON_START_H + 40, GB_BUTTON_START_V + 8])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -225,6 +256,8 @@ if __name__ == '__main__':
                             print()
                         print()
                         """
+                        screen.fill(WHITE)
+
                     elif gb_restart_button.collidepoint(event.pos):
                         restart_game = True
                     elif gb_exit_button.collidepoint(event.pos):
@@ -268,4 +301,5 @@ if __name__ == '__main__':
                     if game_over:
                         winner = b.check_board()
                         restart_game = draw_game_over(winner)
-            b.draw()
+            # b.draw()
+                gb_reset_button, gb_restart_button, gb_exit_button = draw_buttons()

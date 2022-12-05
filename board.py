@@ -143,6 +143,7 @@ class Board:
                     col.sketched_value = 0
                     col.selected = False
                     col.cell_color = BLACK
+                    #col.draw()
 
     def is_full(self):
         """Returns a Boolean value indicating whether the board is full or not."""

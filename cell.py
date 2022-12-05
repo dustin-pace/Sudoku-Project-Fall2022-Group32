@@ -50,7 +50,8 @@ class Cell:
         else:
             if self.sketched_value == 0:
                 if self.value == 0:
-                    display_value = font1.render(f"", True, BLACK)
+                    display_value = font1.render(f" ", True, WHITE)
+                    self.screen.blit(display_value, (self.col + CELL_WIDTH / 6, self.row + CELL_HEIGHT / 6))
                 else:
                     display_value = font1.render(f"{self.value}", True, BLACK)
                 self.screen.blit(display_value, (self.col + CELL_WIDTH / 3, self.row + CELL_HEIGHT / 3))
