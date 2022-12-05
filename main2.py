@@ -28,9 +28,9 @@ def draw_game_start():
     button_font = pygame.font.Font(None, BUTTON_FONT)
 
     #Setting screen variable
-    screen = pygame.display.set_mode((BG_WIDTH, BG_HEIGHT))
+    # screen = pygame.display.set_mode((BG_WIDTH, BG_HEIGHT))
     #Filling empty parts of screen with white color
-    screen.fill((WHITE))
+    # screen.fill((WHITE))
 
     #Initialize title
     title = start_title_font.render("Welcome to Sudoku", True, BLACK)
@@ -178,16 +178,23 @@ if __name__ == '__main__':
     #Activating PyGame library
     pygame.init()
 
+    # Initialize game loop variables
     keep_playing = True
+
     # Main Loop for game
     while keep_playing:
+        # Initialize GUI loop variables
+        restart_game = False
+        winner = False
+
         """ Draw game welcome, accept game difficulty setting"""
+        screen = pygame.display.set_mode((BG_WIDTH, BG_HEIGHT))
         mode = draw_game_start()
 
         """ Setup board in the board class for usage with GUI"""
-        b = Board(BOARD_WIDTH, BOARD_HEIGHT, pygame.display.set_mode((BG_WIDTH, BG_HEIGHT)), mode)
-        screen = pygame.display.set_mode((BG_WIDTH, BG_HEIGHT))
+        b = Board(BOARD_WIDTH, BOARD_HEIGHT, screen, mode)
         screen.fill((WHITE))
+
         button_font = pygame.font.Font(None, BUTTON_FONT)
 
         # Reset Button
@@ -237,23 +244,33 @@ if __name__ == '__main__':
         input_val = 0
         game_over = False
 
-        while (True):
+
+        while not restart_game:
             b.draw()
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                    keep_playing = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if gb_reset_button.collidepoint(event.pos):
                         b.reset_to_original()
                         print('Reset Buton pressed')
-                        b.draw()
+                        for i, row in enumerate(b.board):
+                            for j, col in enumerate(row):
+                                print(col.value, col.sketched_value, end=" ")
+                            print()
+                        print()
+                        # b.draw()
+                        # pygame.display.update()
                     elif gb_restart_button.collidepoint(event.pos):
-                        pass
+                        print('Restart Button pressed')
+                        restart_game = True
                     elif gb_exit_button.collidepoint(event.pos):
                         pygame.quit()
                         sys.exit()
+                        keep_playing = False
                     selected_cell = b.click(event.pos[0], event.pos[1])
                     if selected_cell is not None:
                         valid_selection = b.select(selected_cell[0], selected_cell[1])
@@ -299,6 +316,7 @@ if __name__ == '__main__':
                         # print(f'Winner: {winner}')
                         keep_playing = False
                         draw_game_over(winner)
+            b.draw()
 
-        keep_playing = False
-        draw_game_over(winner)
+        # keep_playing = False
+    draw_game_over(winner)

@@ -3,8 +3,6 @@ import pygame
 import sudoku_generator
 from constants import *
 
-# pygame.init()
-
 
 class Board:
     """This class represents an entire Sudoku board. A Board object has 81 Cell objects."""
