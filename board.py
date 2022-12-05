@@ -170,7 +170,7 @@ class Board:
         for i, row in enumerate(self.board):
             for j, col in enumerate(row):
                 if col.value != self.solved[i][j]:
-                    print(col.value, self.solved[i][j])
+                    # print(col.value, self.solved[i][j])
                     return False
         return True
 
